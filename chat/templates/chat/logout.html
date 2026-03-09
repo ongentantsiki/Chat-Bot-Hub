@@ -1,0 +1,13 @@
+{% extends 'chat/base.html' %}
+
+{% block content %}
+<h2>Wylogowanie</h2>
+
+<p>Czy na pewno chcesz się wylogować?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Wyloguj</button>
+  <a href="{% url 'home' %}">Anuluj</a>
+</form>
+{% endblock %}

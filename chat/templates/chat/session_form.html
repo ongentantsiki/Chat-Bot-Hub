@@ -1,0 +1,35 @@
+{% extends "chat/base.html" %}
+{% block content %}
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <title>Create New Session</title>
+</head>
+<body>-->
+
+    <h1>Create New Session</h1>
+
+    <form method="post" action="{% url 'session_create' %}">
+        {% csrf_token %}
+
+        <label for="name">Session Name (optional):</label>
+        <input type="text" id="name" name="name" placeholder="Leave blank for default 'New chat'">
+
+        <button type="submit">Create Session</button>
+    </form>
+
+    <a href="{% url 'home' %}">Cancel</a>
+<!--</body>
+</html>-->
+{% endblock %}
+
+<!--
+{% extends "chat/base.html" %}
+{% block content %}
+  <h1>Nowa sesja</h1>
+  <form method="post">{% csrf_token %}
+    <input type="text" name="name" placeholder="Nazwa" required />
+    <button type="submit">Utwórz</button>
+  </form>
+{% endblock %}
+-->

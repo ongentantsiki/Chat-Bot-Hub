@@ -1,0 +1,57 @@
+{% extends "chat/base.html" %}
+{% block content %}
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ session.name }}</title>
+</head>
+<body>-->
+    
+    <h1>{{ session.name }}</h1>
+    <p>Created: {{ session.created_at }}</p>
+
+    <a href="{% url 'home' %}">Back to Sessions</a>
+
+    <h2>Messages</h2>
+
+    {% if session.messages.all %}
+        <div>
+            {% for message in session.messages.all %}
+                <div>
+                    <strong>{{ message.get_role_display }}:</strong>
+                    <p>{{ message.content }}</p>
+                    <small>{{ message.created_at }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No messages yet. Send a message to start the conversation.</p>
+    {% endif %}
+
+    <form method="post" action="{% url 'session_detail' session_id=session.id %}">
+        {% csrf_token %}
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+<!--</body>
+</html>-->
+{% endblock %}
+
+
+<!--
+{% extends "chat/base.html" %}
+{% block content %}
+  <h1>{{ session.name }}</h1>
+  {% for m in session.messages.all %}
+    <div class="msg {{ m.role }}">{{ m.content }}</div>
+  {% endfor %}
+
+  <form method="post" style="margin-top:20px;">{% csrf_token %}
+    <textarea name="message" rows="3" style="width:100%;" required></textarea>
+    <button type="submit">Wyślij</button>
+  </form>
+{% endblock %}
+-->
