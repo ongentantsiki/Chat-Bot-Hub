@@ -15,6 +15,7 @@
     {% if user.is_authenticated %}
       <a href="{% url 'home' %}">Sesje</a> |
       <a href="{% url 'session_create' %}">Nowa sesja</a> |
+      <span>Logged in as: {{ user.username }}</span> <!-- addition optional--> 
       <a href="{% url 'logout' %}">Wyloguj</a>
     {% else %}
       <a href="{% url 'login' %}">Zaloguj się</a> |

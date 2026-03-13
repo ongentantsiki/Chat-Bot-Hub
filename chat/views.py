@@ -6,6 +6,8 @@ from .models import ChatSession, ChatMessage
 from .openrouter import ask_openrouter
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -16,6 +18,8 @@ def register(request):
     return render(request, 'chat/register.html', {'form': form})
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -28,7 +32,7 @@ def login_view(request):
 
 @login_required
 def logout_view(request):
-    if request.method == 'POST':
+    if request.method == 'POST': # if 'DIALOG' or 'GET'?
         logout(request)
         return redirect('login')
     return render(request, 'chat/logout.html')

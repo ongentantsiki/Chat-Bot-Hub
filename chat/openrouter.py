@@ -1,6 +1,8 @@
 import os
 from openai import OpenAI
+from dotenv import load_dotenv
 
+load_dotenv() # the function is calling to load the .env file and populate the environment variables, including OPENROUTER_API_KEY, which is used later in the code.
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 #OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "") # old version, sometimes work sometimes doesn't in some environments.
 

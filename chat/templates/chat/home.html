@@ -1,12 +1,5 @@
 {% extends "chat/base.html" %} 
 {% block content %}
-<!--
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Chat Sessions</title>
-    </head>
-<body>-->
 
     <h1>Chat Sessions</h1>
 
@@ -26,20 +19,5 @@
     {% else %}
         <p>No chat sessions yet. Create one to get started.</p>
     {% endif %}
-<!--</body>
-</html>-->
-{% endblock %}
 
-<!-- (from Lekcja 15)
-{% extends "chat/base.html" %}
-{% block content %}
-  <h1>Twoje sesje</h1>
-  <ul>
-    {% for s in sessions %}
-      <li><a href="{% url 'session_detail' s.id %}">{{ s.name }}</a></li>
-    {% empty %}
-      <li>Brak sesji.</li>
-    {% endfor %}
-  </ul>
 {% endblock %}
--->

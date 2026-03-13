@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-h)8y=rzio(o$)r!&v$gh6cgzkd!y1(_in_jaja!sm-i+v8yo3a'
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-insecure-key') # Pobierz z .env lub użyj wartości domyślnej dla dewelopmentu
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -121,3 +123,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/6.0/topics/auth/
 
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home' # ?
+LOGOUT_REDIRECT_URL = 'login' # ?
+
+# Media
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 class ChatSession(models.Model):
@@ -23,3 +24,18 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"{self.role}: {self.content[:30]}"
+
+
+
+class Attachments(models.Model):
+    FILE_TYPES = [
+		('txt', 'Text File'),
+		('pdf', 'PDF File'),
+		('img', 'Image File'),
+    ]
+
+    message = models.ForeignKey(ChatMessage, on_delete=models.CASCADE, related_name='attachments')
+    file = models.FileField(upload_to="attachments/") # where to store the uploaded files
+    file_type = models.CharField(choices=FILE_TYPES)
+    size = models.IntegerField()
+    uploaded_at = models.DateTimeField(auto_now_add=True)
