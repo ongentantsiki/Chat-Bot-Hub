@@ -52,6 +52,8 @@ def session_create(request):
 
 @login_required
 def session_detail(request, session_id):
+    ALLOWED = ['text/plain', 'application/pdf', 'image/jpeg', 'image/png']
+    MAX_SIZE = 5 * 1024 * 1024  # 5 MB
     session = get_object_or_404(ChatSession, id=session_id, user=request.user)
     if request.method == 'POST':
         text = request.POST.get('message', '').strip()
@@ -65,6 +67,16 @@ def session_detail(request, session_id):
             # (tu wykonaj walidację pliku — patrz sekcja 4)
             msg = ChatMessage.objects.create(session=session, role='user', content=text)
             if file:
+                if file.size > MAX_SIZE:
+                    return render(request, 'chat/session_detail.html', {
+                        'session': session,
+                        'error': 'Plik za duży (max 5 MB)'
+                    })
+                if file.content_type not in ALLOWED:
+                    return render(request, 'chat/session_detail.html', {
+                        'session': session,
+                        'error': 'Nieobsługiwany typ pliku'
+                    })
                 mime_to_type = {
                     'text/plain': 'txt',
                     'application/pdf': 'pdf',
