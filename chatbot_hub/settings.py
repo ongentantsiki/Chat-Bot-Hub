@@ -16,13 +16,17 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'dev-insecure-key') # Pobierz z .env lub użyj wartości domyślnej dla dewelopmentu
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-insecure-key')
+OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '')
+OPENROUTER_MODEL_TEXT = os.getenv('OPENROUTER_MODEL_TEXT', 'google/gemma-3-4b-it:free') #openai/gpt-oss-120b:free
+OPENROUTER_MODEL_MULTIMODAL = os.getenv('OPENROUTER_MODEL_MULTIMODAL', 'google/gemma-3-4b-it:free') # openai/gpt-4o-mini . Pobierz z .env lub użyj wartości domyślnej dla dewelopmentu
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'chat',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +135,11 @@ LOGOUT_REDIRECT_URL = 'login' # ?
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'chatbothub-cache' # arbitrary/unique name for this cache instance
+    }
+}
+
