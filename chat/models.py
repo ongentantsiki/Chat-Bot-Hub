@@ -39,3 +39,8 @@ class Attachments(models.Model):
     file_type = models.CharField(choices=FILE_TYPES)
     size = models.IntegerField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+class AudioMessage(models.Model):
+    message = models.ForeignKey(ChatMessage, on_delete=models.CASCADE, related_name='audio')
+    audio_file = models.FileField(upload_to='audio/')
+    created_at = models.DateTimeField(auto_now_add=True)

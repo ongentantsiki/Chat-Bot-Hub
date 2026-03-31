@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import ChatSession, ChatMessage, Attachments
-from .models import ChatSession, ChatMessage, Attachments
+from .models import ChatSession, ChatMessage, Attachments, AudioMessage
+from django.core.files.base import ContentFile
 from .openrouter import ask_openrouter
-from .utils import mime_dictionary
+from .utils import mime_dictionary, generate_tts_file
 
 def register(request):
     if request.user.is_authenticated:
@@ -95,14 +95,17 @@ def session_detail(request, session_id):
                     'image/jpeg': 'img',
                     'image/png': 'img',
                     }
-                mime_map = mime_dictionary() # import z utils.py
+                #mime_map = mime_dictionary() # import z utils.py
                 Attachments.objects.create(
                     message=msg,
                     file=file,
-                    file_type=mime_to_type.get(file.content_type, 'txt'), # file_type=mime_map().get(file.content_type,)
+                    file_type=mime_to_type.get(file.content_type, 'txt'), # or file_type=mime_map().get(file.content_type,)
                     size=file.size
                     )
-            reply = ask_openrouter(msg) # tu przekazujemy cały obiekt message, bo funkcja build_user_content() w openrouter.py potrafi z niego wyciągnąć zarówno tekst, jak i załączniki
-            ChatMessage.objects.create(session=session, role='assistant', content=reply)
+            reply = ask_openrouter(msg) # odpowiedz bota. Tu przekazujemy cały obiekt message, bo funkcja build_user_content() w openrouter.py potrafi z niego wyciągnąć zarówno tekst, jak i załączniki
+            assistant_msg = ChatMessage.objects.create(session=session, role='assistant', content=reply) # Nie zapisujemy audio do msg, bo msg oznacza wiadomość użytkownika. Audio ma należeć do assistant_msg.
+            audio_bytes = generate_tts_file(reply)
+            audio = AudioMessage.objects.create(message=assistant_msg)
+            audio.audio_file.save('reply.mp3', ContentFile(audio_bytes))
         return redirect('session_detail', session_id=session.id)
     return render(request, 'chat/session_detail.html', {'session': session})

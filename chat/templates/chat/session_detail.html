@@ -15,6 +15,9 @@
                     <strong>{{ message.get_role_display }}:</strong>
                     <p>{{ message.content }}</p>
                     <small>{{ message.created_at }}</small>
+                    {% if message.role == 'assistant' and message.audio.first %}
+                        <audio controls src="{{ message.audio.first.audio_file.url }}"></audio>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
