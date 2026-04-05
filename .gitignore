@@ -17,14 +17,24 @@ db.sqlite3
 /media
 /staticfiles
 
+# Database files
+db.sqlite3
+*.db
+
 # env files
 .env
+.env.local
+.env.*.local
 
 # VSCode
 .vscode/
 
 # macOS
 .DS_Store
+
+# Secrets and credentials
+secrets.json
+private_key.pem
 
 # Windows
 Thumbs.db
