@@ -27,12 +27,12 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'dev-insecure-key')
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '')
 OPENROUTER_MODEL_TEXT = os.getenv('OPENROUTER_MODEL_TEXT', 'google/gemma-3-4b-it:free') #openai/gpt-oss-120b:free
-OPENROUTER_MODEL_MULTIMODAL = os.getenv('OPENROUTER_MODEL_MULTIMODAL', 'google/gemma-3n-e4b-it:free') # openai/gpt-4o-mini . Pobierz z .env lub użyj wartości domyślnej dla dewelopmentu
+OPENROUTER_MODEL_MULTIMODAL = os.getenv('OPENROUTER_MODEL_MULTIMODAL', 'openrouter/free') # openai/gpt-4o-mini, google/gemma-3n-e4b-it:free, google/gemma-3-27b-it:free. Pobierz z .env lub użyj wartości domyślnej dla dewelopmentu
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]',]
+ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1'] #['localhost', '127.0.0.1', '[::1]',]
 
 
 # Application definition
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -94,7 +95,6 @@ else:
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
@@ -129,7 +129,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Authentication
 # https://docs.djangoproject.com/en/6.0/topics/auth/
