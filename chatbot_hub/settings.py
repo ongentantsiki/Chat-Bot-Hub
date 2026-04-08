@@ -30,7 +30,7 @@ OPENROUTER_MODEL_TEXT = os.getenv('OPENROUTER_MODEL_TEXT', 'google/gemma-3-4b-it
 OPENROUTER_MODEL_MULTIMODAL = os.getenv('OPENROUTER_MODEL_MULTIMODAL', 'openrouter/free') # openai/gpt-4o-mini, google/gemma-3n-e4b-it:free, google/gemma-3-27b-it:free. Pobierz z .env lub użyj wartości domyślnej dla dewelopmentu
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1'] #['localhost', '127.0.0.1', '[::1]',]
 
