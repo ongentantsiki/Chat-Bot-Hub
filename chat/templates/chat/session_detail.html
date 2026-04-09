@@ -18,6 +18,16 @@
                     {% if message.role == 'assistant' and message.audio.first %}
                         <audio controls src="{{ message.audio.first.audio_file.url }}"></audio>
                     {% endif %}
+                    {% if forloop.last and message.role == 'assistant' and not message.audio.first %}
+                        <form method="post" action="{% url 'session_detail' session_id=session.id %}" style="display:inline; margin-top: 10px;">
+                            {% csrf_token %}
+                            <input type="hidden" name="message_id" value="{{ message.id }}">
+                            <button type="submit" name="generate_tts" value="1">Generate Audio</button>
+                            {% if tts_error %}
+                                <span style="color: red; margin-left: 10px;">{{ tts_error }}</span>
+                            {% endif %}
+                        </form>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
